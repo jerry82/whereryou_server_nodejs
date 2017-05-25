@@ -1,0 +1,139 @@
+------------------------------------------
+Tasks:
+------------------------------------------
+. log to file for transation
+
+. set up and write unit test
+
+. login authentication
+
+. up to GIT whereryou nodejs
+
+------------------------------------------
+Rest APIs:
+------------------------------------------
+[1] POST - registerDevice: (loginId, deviceToken)
+/where/users/[loginId]/devices
+http:200-300 true
+else: false
+
+[2] GET - getUserInfo: (Id)
+/where/Users/[Id]
+http:200
+    return json(username, name, hidden, status)
+http:404
+
+[3] POST - registerUser (Id, username, name)
+/where/User
+http:201 - OK
+http:409 - duplicate user
+http:400 - invalid input
+http:204 - already registered
+
+[4] DELETE - deleteUser (Id)
+/where/Users/[Id]
+http:200   - OK
+other - error
+
+[5] POST - sendInvitation (myId, username)
+/where/users/[myId]/friends/[username]
+http:200 - OK (change to 201)
+other - error
+
+[6] GET - getInvitation (myId)
+/where/users/[myId]/invitations
+http:200 - json invitations
+
+[7] PATCH - respondToInvitation (myId, invitationId, accept)
+/where/users/[myId]/invitations/[invitationId]
+http:200 - json
+http:204 - request is declined
+
+[8] GET - getFriends (myId)
+/where/users/[myId]/friends
+http:200 - json
+http:404 - not found
+
+[9] GET getFriendsAndInvitations (myId)
+/where/users/[myId]/friendsAndInvitations
+http:200 - json
+http:404 - not found
+
+[10] DELETE deleteFriend (myId, friendUsername)
+/where/users/[myId]/friends/[friendUsername]
+http:200
+http:not success
+
+[11] PATCH - sendUpdateUserInfo (myId, jsonData)
+/where/users/[myId]
+http:204 - ok
+other
+
+[12] GET - getFriendLocation (myId, friendUsername)
+/where/users/[myId]/friends/[friendUsername]/lastLocationUpdate
+http:200 - json (lat, lng, accuracy, timestamp)
+other
+
+------------------------------------------
+Use Cases:
+------------------------------------------
+1. Each device has deviceID if user doesn't select link to Facebook account
+2. If link to FB account: userId = FBUser.objectID
+
+
+
+------------------------------------------
+Database Schema:
+------------------------------------------
+[1] Device
+  string Id
+  string UserId
+  string NotificationUrl
+  DeviceType Type
+  string AuthToken
+  DateTimeOffset LastUpdated
+
+[2] ErrorRecord
+  int Id
+  string Message
+  string StackTrace
+  string RequestUrl
+  string RequestMethod
+  string RequestContent
+  DateTimeOffset Time
+
+[3] Invitation
+  int Id
+  string InviterUsername
+  string InviterDisplayName
+  string FriendId
+  bool Declined
+
+[4] Notification
+  int Id
+  string Message
+  int Count
+  NotificationType Type (Toast, Tile, Badge)
+  string UserId
+
+[5] Statistics
+  int NumberOfUsers
+  int NumberOfFriendShips
+  int NumberOfPendingRequests
+
+[6] UserModel
+  string Id
+  string Username
+  string DisplayName
+  bool IsHidden
+  string Language
+  string Status
+  double Longitude
+  double Latitude
+  double Accuracy
+  bool ShowNotification
+  DateTimeOffSet LastLocationUpdatedTime
+  DateTimeOffSet CreationTime
+  --> * Devices
+  --> * UserModel (friends)
+  --> * Invitations

@@ -1,0 +1,7 @@
+{
+    "FRIEND_TYPE": {
+        "FRIEND": 0,
+        "PENDING": 1,
+        "DECLINED": 2
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "whereryou",
+  "description": "where R you Server Application",
+  "version": "0.0.1",
+  "author": "Jerry Nguyen",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.3.0",
+    "body-parser": "^1.17.1",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "express": "4.x",
+    "mocha": "^3.2.0",
+    "mongoose": "^4.9.3",
+    "mongoose-double": "0.0.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha --timeout 10000",
+    "autotest": "./node_modules/.bin/supervisor -q -n exit -x ./node_modules/.bin/mocha -- -b"
+  }
+}
